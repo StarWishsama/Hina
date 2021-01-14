@@ -1,0 +1,8 @@
+object Versions {
+    const val hinaVersion = "0.0.1-EA"
+    const val ktorVersion = "1.4.1"
+    const val gsonVersion = "2.8.6"
+    const val retrofitVersion = "2.9.0"
+}
+
+fun ktor(id: String, version: String = Versions.ktorVersion) = "io.ktor:ktor-$id:$version"
