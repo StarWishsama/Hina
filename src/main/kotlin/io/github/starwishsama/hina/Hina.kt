@@ -26,7 +26,3 @@ class Hina(val config: HinaConfig) {
         logger.outputFile = config.logFileName
     }
 }
-
-fun main() {
-    embeddedServer(ApplicationEngineFactory<OkHttp, {}>())
-}
