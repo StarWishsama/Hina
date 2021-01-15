@@ -4,25 +4,72 @@ import java.lang.StringBuilder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-val defaultPattern: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")
-
-class HinaLogger(
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+open class HinaLogger(
     val loggerName: String,
-    val loggerFileName: String = "$loggerName + ${defaultPattern.format(LocalDateTime.now())}.txt",
     val logAction: (String) -> Unit = {
         println(it)
     },
+    var debugMode: Boolean = false,
+    var simpleMode: Boolean = false,
+    val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH/mm/ss")
 ) {
-    fun log(level: HinaLogLevel, message: String, stacktrace: Throwable? = null) {
+    // 时间 日志等级/日志等级缩写 logger名字 -> logger前缀 消息
+    fun log(level: HinaLogLevel, message: String?, stacktrace: Throwable? = null, prefix: String = "") {
+        if (!debugMode && level == HinaLogLevel.Debug) return
 
+        var st = ""
+
+        if (stacktrace != null) {
+            st = formatStacktrace(stacktrace, null, simpleMode)
+        }
+
+        logAction(
+            "${dateTimeFormatter.format(LocalDateTime.now())} ${level.internalName}/${level.simpleName} $loggerName -> $prefix $message"
+                    + if (st.isNotEmpty()) "\n$st" else ""
+        )
     }
 
-    fun info(content: String) {
+    fun info(content: String?) {
+        log(HinaLogLevel.Info, content)
+    }
 
+    fun info(content: String?, stacktrace: Throwable?) {
+        log(HinaLogLevel.Info, content, stacktrace)
+    }
+
+    fun verbose(content: String?) {
+        log(HinaLogLevel.Verbose, content)
+    }
+
+    fun verbose(content: String?, stacktrace: Throwable?) {
+        log(HinaLogLevel.Verbose, content, stacktrace)
+    }
+
+    fun error(content: String?) {
+        log(HinaLogLevel.Error, content)
+    }
+
+    fun error(content: String?, stacktrace: Throwable?) {
+        log(HinaLogLevel.Error, content, stacktrace)
+    }
+
+    fun warning(content: String?) {
+        log(HinaLogLevel.Warn, content)
+    }
+
+    fun warning(content: String?, stacktrace: Throwable?) {
+        log(HinaLogLevel.Warn, content, stacktrace)
+    }
+
+    fun debug(content: String?) {
+        log(HinaLogLevel.Debug, content)
+    }
+
+    fun debug(content: String?, stacktrace: Throwable?) {
+        log(HinaLogLevel.Debug, content, stacktrace)
     }
 }
-
-enum class HinaLogColor
 
 /**
  * https://github.com/Polar-Pumpkin/ParrotX/blob/master/src/main/java/org/serverct/parrot/parrotx/utils/i18n/PLogger.java#L126
@@ -34,15 +81,15 @@ enum class HinaLogColor
  *
  * @author Polar-Pumpkin
  */
-fun formatStacktrace(exception: Throwable, packageFilter: String? = null, simpleMode: Boolean): String {
+internal fun formatStacktrace(exception: Throwable, packageFilter: String? = null, simpleMode: Boolean): String {
     if (simpleMode) return exception.stackTraceToString()
 
-    val msg = exception.localizedMessage
     return buildString {
+        val msg = exception.localizedMessage
         append("========================= 发生了错误 =========================")
         append("异常类型 ▶")
-        append(HinaLogColor.RED.toString() + exception.javaClass.name)
-        append(HinaLogColor.RED.toString() + if (msg == null || msg.isEmpty()) "没有详细信息" else msg)
+        append(exception.javaClass.name)
+        append(if (msg == null || msg.isEmpty()) "没有详细信息" else msg)
         // org.serverct.parrot.plugin.Plugin
         var currentPackage = ""
         for (elem in exception.stackTrace) {
@@ -75,10 +122,10 @@ fun formatStacktrace(exception: Throwable, packageFilter: String? = null, simple
     }
 }
 
-sealed class HinaLogLevel(val display: String) {
-    object Verbose: HinaLogLevel("VERBOSE")
-    object Info: HinaLogLevel("INFO")
-    object Debug: HinaLogLevel("DEBUG")
-    object Error: HinaLogLevel("ERROR")
-    object Warn: HinaLogLevel("WARN")
+sealed class HinaLogLevel(val internalName: String, val simpleName: String) {
+    object Verbose: HinaLogLevel("VERBOSE", "V")
+    object Info: HinaLogLevel("INFO", "I")
+    object Debug: HinaLogLevel("DEBUG", "D")
+    object Error: HinaLogLevel("ERROR", "E")
+    object Warn: HinaLogLevel("WARN", "W")
 }

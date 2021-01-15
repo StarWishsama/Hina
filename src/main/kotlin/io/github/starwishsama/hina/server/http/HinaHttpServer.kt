@@ -1,4 +1,4 @@
-package io.github.starwishsama.hina.server
+package io.github.starwishsama.hina.server.http
 
 import io.github.starwishsama.hina.Hina
 import io.github.starwishsama.hina.logger.HinaLogger
@@ -6,23 +6,28 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import io.ktor.util.*
 
+@Suppress("MemberVisibilityCanBePrivate", "CanBeParameter")
 @OptIn(KtorExperimentalAPI::class)
-open class HinaHttpServer(val port: Int, val hina: Hina) {
-    val logger: HinaLogger
+open class HinaHttpServer(val hina: Hina, val logger: HinaLogger = HinaLogger("HinaNet")) {
     lateinit var server: ApplicationEngine
 
     init {
-        logger = HinaLogger()
         try {
             server = embeddedServer(CIO, environment = applicationEngineEnvironment {
+                module {
+                    hinaService(hina)
+                }
                 connector {
                     this.port = hina.config.incomingSocketPort
                 }
             })
-            server.start(false)
         } catch (e: Exception) {
-            logger // "Hina 服务端启动失败"
+            logger.warning("Hina 服务端启动失败", e)
         }
+    }
+
+    fun start() {
+        server.start(false)
     }
 
     fun close() {

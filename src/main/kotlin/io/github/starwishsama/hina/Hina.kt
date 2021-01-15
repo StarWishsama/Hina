@@ -1,7 +1,7 @@
 package io.github.starwishsama.hina
 
 import io.github.starwishsama.hina.command.CommandExecutor
-import io.github.starwishsama.hina.server.HinaHttpServer
+import io.github.starwishsama.hina.server.http.HinaHttpServer
 import io.ktor.application.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.server.cio.*
