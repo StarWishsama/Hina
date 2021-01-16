@@ -41,4 +41,7 @@ java {
 }
 
 kotlin {
+    sourceSets.all {
+        languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+    }
 }
