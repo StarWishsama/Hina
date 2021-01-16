@@ -8,8 +8,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("CQLifecycleMetaEvent")
 data class LifeCycleMetaEventDTO(
+    @SerializedName("self_id")
     override var selfId: Long,
-    val sub_type: String, // enable、disable、connect
+    @SerializedName("sub_type")
+    val subType: String, // enable、disable、connect
     override var time: Long
 ) : CQEventDTO() {
     override var postType: String = "meta_event"
