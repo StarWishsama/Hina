@@ -26,6 +26,7 @@ dependencies {
     implementation(ktor("websockets"))
     implementation(ktor("client-okhttp"))
     implementation(ktor("client-websockets"))
+    implementation(ktor("gson"))
 
     implementation("com.google.code.gson:gson:${Versions.gsonVersion}")
     implementation("com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}")

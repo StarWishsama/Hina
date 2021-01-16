@@ -5,16 +5,24 @@ import io.github.starwishsama.hina.Hina
 import io.github.starwishsama.hina.api.OneBotRouteURL
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.gson.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
 
 fun Application.hinaService(hina: Hina) {
     install(CallLogging)
+    install(ContentNegotiation) {
+        gson {
+            setPrettyPrinting()
+            disableHtmlEscaping()
+        }
+    }
 
     routing {
         OneBotRouteURL.values().forEach {
             oneBotApi("/${it}") {
-                TODO()
+                call.respond("WIP")
             }
         }
     }
