@@ -16,7 +16,7 @@ abstract class UniversalEventDTO : UniversalDTO {
 }
 
 @Serializable
-abstract class CQEventDTO {
+abstract class BotEventDTO {
     // 序列化成 post_type
     abstract var postType: String
     // 序列化成 self_id
@@ -26,7 +26,7 @@ abstract class CQEventDTO {
 }
 
 @Serializable
-class IgnoredEventDTO(@SerializedName("self_id") override var selfId: Long) : CQEventDTO() {
+class IgnoredEventDTO(@SerializedName("self_id") override var selfId: Long) : BotEventDTO() {
     @SerializedName("post_type")
     override var postType = "忽略"
     override var time = System.currentTimeMillis()

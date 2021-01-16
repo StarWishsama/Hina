@@ -6,15 +6,22 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("CQLifecycleMetaEvent")
-data class LifeCycleMetaEventDTO(
+@SerialName("CQHeartbeatMetaEvent")
+data class HeartbeatMetaEventDTO(
     @SerializedName("self_id")
     override var selfId: Long,
-    @SerializedName("sub_type")
-    val subType: String, // enable、disable、connect
-    override var time: Long
+    override var time: Long,
+    val status: RunningStatus,
+    val interval: Long,
 ) : BotEventDTO() {
+    @SerializedName("post_type")
     override var postType: String = "meta_event"
     @SerializedName("meta_event_type")
-    val metaEventType: String = "lifecycle"
+    val metaEventType: String = "heartbeat"
+
+    @Serializable
+    data class RunningStatus(
+        val online: Boolean,
+        val good: Boolean
+    )
 }

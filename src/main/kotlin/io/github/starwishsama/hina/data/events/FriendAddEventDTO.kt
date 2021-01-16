@@ -5,16 +5,16 @@ import io.github.starwishsama.hina.data.BotEventDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
 @Serializable
-@SerialName("CQLifecycleMetaEvent")
-data class LifeCycleMetaEventDTO(
+@SerialName("CQFriendAddEvent")
+data class FriendAddEventDTO(
     @SerializedName("self_id")
     override var selfId: Long,
-    @SerializedName("sub_type")
-    val subType: String, // enable、disable、connect
     override var time: Long
-) : BotEventDTO() {
-    override var postType: String = "meta_event"
-    @SerializedName("meta_event_type")
-    val metaEventType: String = "lifecycle"
+): BotEventDTO() {
+    @SerializedName("post_type")
+    override var postType: String = "notice"
+    @SerializedName("notice_type")
+    val noticeType: String = "friend_add"
 }
