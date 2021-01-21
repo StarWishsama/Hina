@@ -3,9 +3,8 @@ package io.github.starwishsama.hina.event.events.meta
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import io.github.starwishsama.hina.Hina
-import io.github.starwishsama.hina.pojo.get.HeartBeatStatus
 
-data class MetaHeartbeatEvent(
+data class MetaLifecycleEvent(
     @SerializedName("time")
     @Expose
     override val time: Long,
@@ -22,13 +21,16 @@ data class MetaHeartbeatEvent(
 
     @SerializedName("meta_event_type")
     @Expose
-    override val metaEventType: String = "heartbeat",
+    override val metaEventType: String = "lifecycle",
 
-    @SerializedName("status")
+    /**
+     * 事件子类型，分别表示 OneBot 启用、停用、WebSocket 连接成功
+     *
+     * 可能的值: enable、disable、connect
+     *
+     * 注意，目前生命周期元事件中，只有 HTTP POST 的情况下可以收到 enable 和 disable，只有正向 WebSocket 和反向 WebSocket 可以收到 connect。
+     */
+    @SerializedName("sub_type")
     @Expose
-    val status: HeartBeatStatus,
-
-    @SerializedName("interval")
-    @Expose
-    val interval: Long
+    val subType: String
 ): MetaEvent(time, postType, selfId, hina, metaEventType)

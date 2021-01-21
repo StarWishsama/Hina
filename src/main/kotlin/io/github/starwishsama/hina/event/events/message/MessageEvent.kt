@@ -4,12 +4,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import io.github.starwishsama.hina.Hina
 import io.github.starwishsama.hina.event.HinaEvent
-import io.github.starwishsama.hina.sender.GroupMessageSender
 import io.github.starwishsama.hina.sender.MessageSender
-import io.github.starwishsama.hina.sender.PrivateMessageSender
-import kotlinx.serialization.Serializable
 
-data class PrivateMessageEvent(
+open class MessageEvent(
     /**
      * 事件发生的时间戳
      */
@@ -23,7 +20,7 @@ data class PrivateMessageEvent(
      */
     @SerializedName("post_type")
     @Expose
-    override val postType: String,
+    override val postType: String = "message",
 
     @SerializedName("self_id")
     @Expose
@@ -37,33 +34,33 @@ data class PrivateMessageEvent(
      */
     @SerializedName("message_type")
     @Expose
-    override val messageType: String,
+    open val messageType: String,
 
     @SerializedName("sub_type")
     @Expose
-    override val subType: String,
+    open val subType: String,
 
     @SerializedName("message_id")
     @Expose
-    override val messageId: Long,
+    open val messageId: Long,
 
     @SerializedName("user_id")
     @Expose
-    override val userId: Long,
+    open val userId: Long,
 
     @SerializedName("message")
     @Expose
-    override val message: String,
+    open val message: String,
 
     @SerializedName("raw_message")
     @Expose
-    override val rawMessage: String,
+    open val rawMessage: String,
 
     @SerializedName("font")
     @Expose
-    override val font: Int,
+    open val font: Int,
 
     @SerializedName("sender")
     @Expose
-    override val sender: PrivateMessageSender
-): MessageEvent(time, postType, selfId, hina, messageType, subType, messageId, userId, message, rawMessage, font, sender)
+    open val sender: MessageSender
+): HinaEvent(time, postType, selfId, hina)
