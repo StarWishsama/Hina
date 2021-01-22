@@ -1,5 +1,5 @@
 package io.github.starwishsama.hina.message.data
 
 abstract class MessageData {
-    abstract fun toCQCode(): String
+    abstract fun toOneBotCode(): String
 }
