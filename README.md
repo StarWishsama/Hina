@@ -1,7 +1,3 @@
-<div align=right>
-[主页](README.md)
-</div>
-
 <br>
 <div align=center> 
 
