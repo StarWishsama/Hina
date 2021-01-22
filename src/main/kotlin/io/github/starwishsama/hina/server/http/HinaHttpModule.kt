@@ -22,7 +22,7 @@ fun Application.hinaService(hina: Hina) {
     routing {
         OneBotRouteURL.values().forEach {
             oneBotApi("/${it}") {
-                call.respond("WIP")
+                TODO()
             }
         }
     }
