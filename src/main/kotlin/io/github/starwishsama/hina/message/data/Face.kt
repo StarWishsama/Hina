@@ -5,4 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class Face(
     @SerializedName("id")
     val id: Long
-): MessageData
+): MessageData {
+    override fun toOneBotString(): String {
+        TODO("Not yet implemented")
+    }
+}
