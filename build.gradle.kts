@@ -3,7 +3,7 @@ plugins {
     kotlin("jvm") version "1.4.21"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.30"
     id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("com.github.gmazzo.buildconfig") version "2.0.2"
+    id("com.github.gmazzo.buildconfig") version "3.0.0"
 }
 
 group = "io.github.starwishsama.hina"
