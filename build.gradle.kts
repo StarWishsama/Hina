@@ -30,7 +30,7 @@ dependencies {
 
     implementation("com.google.code.gson:gson:${Versions.gsonVersion}")
     implementation("com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.2.1")
     implementation("net.mamoe.yamlkt:yamlkt:${Versions.yamlktVersion}")
     implementation("org.fusesource.jansi:jansi:${Versions.jansiVersion}")
 }
